@@ -1,6 +1,6 @@
 {
   "name": "@yocdev/loom",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.0",
   "description": "",
   "bin": {
     "loom": "dist/index.cjs.js"
@@ -13,6 +13,7 @@
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
+    "publish": "renew-it",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -29,6 +30,7 @@
     "@typescript-eslint/parser": "^5.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "renew-it": "^1.5.0",
     "rollup": "^2.70.1"
   },
   "dependencies": {
