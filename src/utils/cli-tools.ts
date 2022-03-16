@@ -5,7 +5,7 @@ import { Option } from '../types';
 
 const rootPath = path.resolve(__dirname, '../');
 
-const configJsPath = path.resolve(rootPath, './caches/awesome-code.config.js');
+const configJsPath = path.resolve(rootPath, './caches/loom.config.js');
 
 const defaultOption = {
   name: '23333',
@@ -13,7 +13,7 @@ const defaultOption = {
 
 export async function readConfig(): Promise<Option> {
   const workPath = process.cwd();
-  const configTsPath = path.resolve(workPath, './awesome-code.config.ts');
+  const configTsPath = path.resolve(workPath, './loom.config.ts');
 
   if (!existsSync(configTsPath)) {
     return defaultOption;
