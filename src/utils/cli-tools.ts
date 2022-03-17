@@ -1,51 +1,52 @@
 import * as path from 'path';
-import { transformFileSync } from '@swc/core';
-import { existsSync, outputFileSync } from 'fs-extra';
-import { Option } from '../types';
+import { existsSync, outputFileSync, readFileSync, remove } from 'fs-extra';
+import { ConfigOptions } from '../types';
+import to from 'await-to-js';
+import fg from 'fast-glob';
+import { defaultOption, rootPath } from '../constant.cli';
+import { ts } from 'ts-morph';
 
-const rootPath = path.resolve(__dirname, '../');
-
-const configJsPath = path.resolve(rootPath, './caches/loom.config.js');
-
-const defaultOption = {
-  name: '23333',
+export const searchFile = (
+  pattern: string | string[] = [],
+  exclude: string[] = [],
+): string[] => {
+  return fg.sync(pattern, { ignore: exclude });
 };
 
-export async function readConfig(): Promise<Option> {
+export const getConfigByTsFile = async <T>(
+  filePath: string,
+  defaultConfig?: T,
+): Promise<T | undefined> => {
+  if (!existsSync(filePath)) {
+    return defaultConfig;
+  }
+  const jscode = ts.transpileModule(
+    readFileSync(filePath).toString(),
+    {},
+  ).outputText;
+
+  const tempJsFilePath = path.resolve(
+    rootPath,
+    `./caches/temp.config.${Date.now().toString().slice(2)}.js`,
+  );
+
+  outputFileSync(tempJsFilePath, jscode);
+  const [err, { default: config }] = await to(import(tempJsFilePath));
+
+  if (err) {
+    console.error(err);
+    process.exit();
+    return;
+  }
+
+  await remove(tempJsFilePath);
+
+  return { ...defaultConfig, ...config };
+};
+
+export async function readConfig(): Promise<ConfigOptions> {
   const workPath = process.cwd();
   const configTsPath = path.resolve(workPath, './loom.config.ts');
 
-  if (!existsSync(configTsPath)) {
-    return defaultOption;
-  }
-
-  const output = transformFileSync(configTsPath, {
-    jsc: {
-      parser: {
-        syntax: 'typescript',
-        tsx: true,
-      },
-      target: 'es2021',
-      keepClassNames: true,
-      loose: true,
-    },
-    module: {
-      type: 'commonjs',
-      strict: false,
-      strictMode: true,
-      lazy: false,
-      noInterop: false,
-    },
-    sourceMaps: false,
-  });
-
-  try {
-    outputFileSync(configJsPath, output.code);
-    const { default: config } = await import(configJsPath);
-
-    return { ...defaultOption, ...config };
-  } catch (error) {
-    console.error(error);
-    process.exit();
-  }
+  return (await getConfigByTsFile<ConfigOptions>(configTsPath, defaultOption))!;
 }

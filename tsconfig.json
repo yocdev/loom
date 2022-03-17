@@ -70,6 +70,6 @@
     "skipLibCheck": true,                           /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true        /* Disallow inconsistently-cased references to the same file. */
   },
-  "exclude": ["node_modules", "dist", "awesome-code.config.ts"],
+  "exclude": ["node_modules", "dist", "loom.config.ts"],
   "include": ["src"]
 }

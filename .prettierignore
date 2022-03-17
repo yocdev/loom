@@ -1,3 +1,4 @@
 dist
-
 node_modules
+caches
+example/__generated__

@@ -37,3 +37,4 @@ lerna-debug.log*
 dist
 yarn.lock
 caches
+example/__generated__

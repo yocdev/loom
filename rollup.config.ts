@@ -6,14 +6,7 @@ import run from '@rollup/plugin-run';
 
 const dev = process.env.ROLLUP_WATCH === 'true';
 
-const commonPlugins = [
-  resolve(),
-  commonjs({
-    transformMixedEsModules: true,
-  }),
-  typescript(),
-  json(),
-];
+const commonPlugins = [resolve(), commonjs({}), typescript(), json()];
 
 export default [
   {
@@ -24,6 +17,7 @@ export default [
       entryFileNames: '[name].cjs.js',
     },
     plugins: [...commonPlugins, dev && run()],
+    external: ['ts-morph'],
   },
   {
     input: './src/index.ts',
@@ -31,6 +25,7 @@ export default [
       dir: 'dist',
       format: 'esm',
       entryFileNames: '[name].esm.js',
+      external: ['ts-morph'],
     },
     plugins: [...commonPlugins],
   },
