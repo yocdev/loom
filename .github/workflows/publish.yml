@@ -4,8 +4,8 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [ created ]
+  create:
+
 
 jobs:
   publish-npm:
@@ -23,19 +23,3 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-
-  publish-gpr:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 14
-          registry-url: https://npm.pkg.github.com/
-      - uses: borales/actions-yarn@v2.3.0
-        with:
-          cmd: install
-      - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
