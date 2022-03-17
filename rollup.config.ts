@@ -15,18 +15,9 @@ export default [
       dir: 'dist',
       format: 'cjs',
       entryFileNames: '[name].cjs.js',
+      banner: '#!/usr/bin/env node',
     },
     plugins: [...commonPlugins, dev && run()],
-    external: ['ts-morph'],
-  },
-  {
-    input: './src/index.ts',
-    output: {
-      dir: 'dist',
-      format: 'esm',
-      entryFileNames: '[name].esm.js',
-      external: ['ts-morph'],
-    },
-    plugins: [...commonPlugins],
+    external: ['ts-morph', 'typescript', 'eslint', 'prettier'],
   },
 ];
