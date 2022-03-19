@@ -4,7 +4,7 @@ import { ConfigOptions } from '../types';
 import to from 'await-to-js';
 import fg from 'fast-glob';
 import { defaultOption, rootPath } from '../constant.cli';
-import { ts } from 'ts-morph';
+import { ModuleKind, ScriptTarget, ts } from 'ts-morph';
 
 export const searchFile = (
   pattern: string | string[] = [],
@@ -20,10 +20,12 @@ export const getConfigByTsFile = async <T>(
   if (!existsSync(filePath)) {
     return defaultConfig;
   }
-  const jscode = ts.transpileModule(
-    readFileSync(filePath).toString(),
-    {},
-  ).outputText;
+  const jscode = ts.transpileModule(readFileSync(filePath).toString(), {
+    compilerOptions: {
+      target: ScriptTarget.ES2015,
+      module: ModuleKind.CommonJS,
+    },
+  }).outputText;
 
   const tempJsFilePath = path.resolve(
     rootPath,
@@ -31,17 +33,16 @@ export const getConfigByTsFile = async <T>(
   );
 
   outputFileSync(tempJsFilePath, jscode);
-  const [err, { default: config }] = await to(import(tempJsFilePath));
-
+  const [err, content] = await to(import(tempJsFilePath));
   if (err) {
-    console.error(err);
+    console.error(err, 'errr');
     process.exit();
     return;
   }
 
   await remove(tempJsFilePath);
 
-  return { ...defaultConfig, ...config };
+  return { ...defaultConfig, ...content?.default };
 };
 
 export async function readConfig(): Promise<ConfigOptions> {

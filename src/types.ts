@@ -1,3 +1,5 @@
+import { PageInfo } from './shuttles/router/types';
+
 export interface ConfigOptions {
   router: {
     /**
@@ -16,5 +18,9 @@ export interface ConfigOptions {
      * @default src/__generated__/router-shuttles
      */
     output: string;
+
+    transformPageInfo?: (pageInfo: PageInfo) => PageInfo;
+
+    transformRouterJson?: (v: any) => any;
   };
 }

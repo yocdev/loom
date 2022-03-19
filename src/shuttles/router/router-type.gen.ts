@@ -1,22 +1,23 @@
-import { RouterConfigResult } from './types';
 import { Project, StructureKind } from 'ts-morph';
 import { removeSync } from 'fs-extra';
+import { RouterConfigResult } from './types';
+import path from 'path';
 
 export const genRouterType = async (
   output: string,
   pageConfigList: RouterConfigResult[],
 ) => {
-  const innerList = pageConfigList.filter((v) => v.pageType);
+  const realOutputPath = path.resolve(output, 'router-type.ts');
 
   const project = new Project({});
   project.addSourceFilesAtPaths([
-    process.cwd() + '/**/router.config.ts',
+    process.cwd() + '/**/route.config.ts',
     '!node_modules',
   ]);
   project.resolveSourceFileDependencies();
-  removeSync(output);
+  removeSync(realOutputPath);
 
-  const routerTypeFile = project.createSourceFile(output, {
+  const routerTypeFile = project.createSourceFile(realOutputPath, {
     statements: [
       {
         kind: StructureKind.Enum,
@@ -49,7 +50,7 @@ export const genRouterType = async (
   // const pageParamsMappingInterface =
   //   routerTypeFile.getInterfaceOrThrow('PageParamsMapping');
 
-  innerList.forEach((item) => {
+  pageConfigList.forEach((item) => {
     if (item.configPath && item.pageType) {
       // const configSourceFile = project.getSourceFileOrThrow(item.configPath);
       //
