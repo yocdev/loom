@@ -3,6 +3,7 @@ import typescript from '@rollup/plugin-typescript';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import run from '@rollup/plugin-run';
+import * as path from 'path';
 
 const dev = process.env.ROLLUP_WATCH === 'true';
 
@@ -16,6 +17,9 @@ export default [
       format: 'cjs',
       entryFileNames: '[name].cjs.js',
       banner: '#!/usr/bin/env node',
+      paths: {
+        '@yocdev/loom': path.resolve(__dirname, './dist'),
+      },
     },
     plugins: [...commonPlugins, dev && run()],
     external: ['ts-morph', 'typescript', 'eslint', 'prettier'],
