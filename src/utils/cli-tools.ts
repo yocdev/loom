@@ -5,6 +5,7 @@ import to from 'await-to-js';
 import fg from 'fast-glob';
 import { defaultOption, rootPath } from '../constant.cli';
 import { ModuleKind, ScriptTarget, ts } from 'ts-morph';
+import { last } from 'lodash';
 
 export const searchFile = (
   pattern: string | string[] = [],
@@ -50,4 +51,9 @@ export async function readConfig(): Promise<ConfigOptions> {
   const configTsPath = path.resolve(workPath, './loom.config.ts');
 
   return (await getConfigByTsFile<ConfigOptions>(configTsPath, defaultOption))!;
+}
+
+export function getParentDirName(pathStr: string) {
+  const dirname = path.dirname(pathStr);
+  return last(dirname.split('/'))!;
 }

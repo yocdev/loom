@@ -1,0 +1,11 @@
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>forward备份</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="详情页-目录" transform="translate(-215.000000, -154.000000)" fill-rule="nonzero">
+            <g id="forward备份" transform="translate(223.000000, 162.000000) rotate(-90.000000) translate(-223.000000, -162.000000) translate(215.000000, 154.000000)">
+                <rect id="矩形" fill="#000000" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                <path d="M10.4029297,7.93679138 L5.91230469,4.06022888 C5.74511719,3.91647888 5.49980469,4.04616638 5.49980469,4.27897888 L5.49980469,12.0336664 C5.49980469,12.2664789 5.74511719,12.3961664 5.91230469,12.2524164 L10.4029297,8.37429138 C10.5326172,8.26179138 10.5326172,8.04929138 10.4029297,7.93679138 Z" id="形状" fill="currentColor"></path>
+            </g>
+        </g>
+    </g>
+</svg>

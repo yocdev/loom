@@ -1,17 +1,16 @@
-import { RouterConfigResult } from './types';
+import { RouterConfigResult, RouterShuttleConfig } from './types';
 import { outputFileSync } from 'fs-extra';
 import path from 'path';
-import { ConfigOptions } from '../../types';
 
 export const RouterJsonGen = async (
   {
     output,
     transformPageInfo,
-    transformRouterJson,
+    transformRouterJson = (v) => v,
   }: {
     output: string;
-    transformPageInfo: ConfigOptions['router']['transformPageInfo'];
-    transformRouterJson: (v: any) => any;
+    transformPageInfo: RouterShuttleConfig['transformPageInfo'];
+    transformRouterJson: RouterShuttleConfig['transformRouterJson'];
   },
   pageConfigList: RouterConfigResult[],
 ) => {

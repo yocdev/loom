@@ -1,4 +1,3 @@
-import { ConfigOptions } from '../../types';
 import { getConfigByTsFile, searchFile } from '../../utils/cli-tools';
 import path from 'path';
 import { existsSync } from 'fs-extra';
@@ -10,13 +9,11 @@ import { defaultOption } from '../../constant.cli';
 import { PageInfo, RouterConfigResult } from './types';
 import { RouterJsonGen } from './router-json.gen';
 
-export const RouterShuttle = async (
-  routerConfig: ConfigOptions['router'] = defaultOption.router,
-) => {
+export const RouterShuttle = async (routerConfig = defaultOption.router) => {
   const {
     include,
     exclude,
-    output = 'src/__generated__/router-shuttle',
+    output = 'src/__generated__/r  outer-shuttle',
     transformPageInfo = (v: PageInfo) => v,
     transformRouterJson = (v: any) => v,
   } = routerConfig || {};

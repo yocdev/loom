@@ -1,0 +1,38 @@
+<svg width="86px" height="94px" viewBox="0 0 86 94" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 38</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#00D56F" offset="0.00819493007%"></stop>
+            <stop stop-color="#00AA50" offset="100%"></stop>
+        </linearGradient>
+        <path d="M79.9274918,14.9431362 C67.569538,13.4507563 50.0305288,7.9672452 40.0001046,0 C29.9184707,7.97794244 12.4831072,13.4444819 0.0725129129,14.9431362 C0.0725129129,14.9431362 -3.52728212,76.2101373 40.0001046,88.2229261 C83.5271846,76.2101372 79.9274918,14.9431362 79.9274918,14.9431362 Z" id="path-2"></path>
+        <filter x="-5.5%" y="-5.0%" width="111.0%" height="110.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feGaussianBlur stdDeviation="2" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="0" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.0283271416 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" offset="0.0710227273%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="微信安全支付" transform="translate(-145.000000, -136.000000)">
+            <g id="编组-38" transform="translate(148.000000, 139.000000)">
+                <g id="矩形">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <g id="蒙版" stroke-linejoin="round" fill-rule="nonzero">
+                        <use fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+                        <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-2"></use>
+                        <path stroke="#FFFFFF" stroke-width="2.4" d="M40.0027139,-1.54612445 C40.2501261,-1.33917813 40.4980681,-1.13695574 40.7464728,-0.93964595 C50.6247787,6.90677047 67.9048545,12.2825315 80.0713618,13.7517918 C80.3973564,13.7911598 80.7275845,13.8286777 81.0597584,13.8648085 C81.0989242,14.3892652 81.1184037,14.7357198 81.1259051,14.8814467 C81.2095698,16.5067621 82.3749532,43.1222482 70.7469074,64.4635083 C64.6862736,75.5867499 55.1772676,85.2791298 40.3193507,89.379681 C24.8313886,85.28149 15.3247442,75.5978874 9.26345317,64.4856126 C-2.37626767,43.1463013 -1.21089502,16.5314217 -1.12981877,14.9541696 C-1.12251973,14.8121745 -1.10315521,14.4674221 -1.06315308,13.942764 C-0.732262263,13.9053379 -0.40516366,13.8661624 -0.082081555,13.8252703 C12.1428081,12.2779796 29.3245785,6.91763449 39.2554533,-0.941007187 C39.5045738,-1.13814474 39.753213,-1.34008433 40.0027139,-1.54612445 Z"></path>
+                    </g>
+                    <rect fill="url(#linearGradient-5)" opacity="0.149999991" mask="url(#mask-3)" x="40" y="-6.42857143" width="80" height="102.053571" rx="1.6"></rect>
+                </g>
+                <path d="M20.4310434,42.4739333 L25.3866006,38.4587 L35.3027435,45.7751238 C35.3027435,45.7751238 48.9952674,31.6099238 62.215115,25 L64.1033055,27.1270428 C64.1033055,27.1270428 47.579753,40.8195667 39.0816387,59 L20.4310434,42.4739333 Z" id="路径备份-4" fill="#FFFFFF" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>
