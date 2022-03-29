@@ -5,6 +5,7 @@ import { outputFileSync, readFileSync } from 'fs-extra';
 import { defaultOption } from '../../constant.cli';
 import { IconShuttleConfig } from './types';
 import { transform } from '@svgr/core';
+import { forEach } from 'modern-async';
 
 export const svgrGen = async (
   config: IconShuttleConfig = defaultOption.icon,
@@ -17,7 +18,7 @@ export const svgrGen = async (
   } = config;
   const filePaths = searchFile(include, exclude);
 
-  filePaths.forEach((svgPath) => {
+  await forEach(filePaths, async (svgPath) => {
     const originFilepath = path.resolve(process.cwd(), svgPath);
 
     const iconName = filePrefix + Case.pascal(path.basename(svgPath, '.svg'));
