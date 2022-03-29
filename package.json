@@ -13,7 +13,7 @@
   "scripts": {
     "start": "rollup -c -w",
     "build": "rollup -c",
-    "pkg:publish": "renew-it",
+    "pkg:publish": "npm run build && renew-it",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
