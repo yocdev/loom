@@ -35,6 +35,7 @@ export const svgrGen = async (
         },
         typescript: true,
         exportType: 'named',
+        namedExport: iconName,
         prettier: true,
         memo: true,
       },
