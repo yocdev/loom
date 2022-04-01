@@ -9,4 +9,19 @@ export interface IconShuttleConfig {
   filePrefix?: string;
 
   output: string;
+
+  /**
+   * 图片模式
+   * @default undefined
+   */
+  imageModeOption?: {
+    onResize: (params: {
+      path: string;
+      fileName: string;
+      folderName: string;
+    }) => {
+      width: null | number;
+      height: null | number;
+    };
+  };
 }

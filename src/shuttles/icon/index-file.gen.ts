@@ -12,7 +12,9 @@ export const indexFileGen = (
 
   const indexFilePath = path.resolve(absoluteFolderPath, 'index.ts');
 
-  const tsxFilePaths = readdirSync(absoluteFolderPath);
+  const tsxFilePaths = readdirSync(absoluteFolderPath).filter((v) =>
+    v.endsWith('.tsx'),
+  );
 
   const code = `${tsxFilePaths
     .map((item) => {

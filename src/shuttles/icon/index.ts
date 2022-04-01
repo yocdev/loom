@@ -2,7 +2,7 @@ import { forEach } from 'modern-async';
 import { IconShuttleConfig } from './types';
 import { svgrGen } from './svgr.gen';
 import { ConfigOptions } from '../../types';
-import { indexFileGen } from './index-file.gen';
+import { imgGen } from './img.gen';
 
 export const IconShuttle = async (config: ConfigOptions['icon']) => {
   const iconConfig = ([] as Array<IconShuttleConfig | undefined>).concat(
@@ -10,8 +10,13 @@ export const IconShuttle = async (config: ConfigOptions['icon']) => {
   );
 
   await forEach(iconConfig, async (item) => {
-    await svgrGen(item);
+    if (!item) return;
+    if (item.imageModeOption) {
+      await imgGen(item);
+    } else {
+      await svgrGen(item);
+    }
 
-    await indexFileGen(item);
+    // await indexFileGen(item);
   });
 };
