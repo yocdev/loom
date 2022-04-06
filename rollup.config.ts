@@ -22,6 +22,13 @@ export default [
       },
     },
     plugins: [...commonPlugins, dev && run()],
-    external: ['ts-morph', 'typescript', 'eslint', 'prettier', 'sharp'],
+    external: [
+      'ts-morph',
+      'typescript',
+      'eslint',
+      'prettier',
+      '@svgr/core',
+      'sharp',
+    ],
   },
 ];
