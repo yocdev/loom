@@ -18,52 +18,82 @@ export const genRouterType = async (
   removeSync(realOutputPath);
 
   const routerTypeFile = project.createSourceFile(realOutputPath, {
-    statements: [
-      {
-        kind: StructureKind.Enum,
-        name: 'PageType',
-        isExported: true,
-      },
-      {
-        kind: StructureKind.Interface,
-        name: 'PageParamsMapping',
-        isExported: true,
-      },
-      // {
-      //   kind: StructureKind.Interface,
-      //   name: innerList[0].pageType + 'PageParams',
-      //   properties: [],
-      // },
-    ],
+    statements: [],
   });
 
-  // ...innerList.map((item) => {
-  //     return {
-  //       kind: StructureKind.Interface,
-  //       name: item.pageType + 'PageParams',
-  //       isExported: true,
-  //     };
-  //   }),
-
-  const pageTypeEnum = routerTypeFile.getEnumOrThrow('PageType');
-
-  // const pageParamsMappingInterface =
-  //   routerTypeFile.getInterfaceOrThrow('PageParamsMapping');
+  const pageTypeEnum = routerTypeFile.addEnum({
+    name: 'PageType',
+    isExported: true,
+    members: [],
+  });
 
   pageConfigList.forEach((item) => {
     if (item.configPath && item.pageType) {
-      // const configSourceFile = project.getSourceFileOrThrow(item.configPath);
-      //
-      // pageParamsInterface = configSourceFile.getInterfaceOrThrow('PageParams');
-      //
-      // const pageParamsInterfaceName = `${
-      //   item.pageType
-      // }${pageParamsInterface.getName()}`;
-      //
-      // pageParamsMappingInterface.addProperty({
-      //   name: item.pageType,
-      //   type: pageParamsInterfaceName,
-      // });
+      const configSourceFile = project.getSourceFileOrThrow(item.configPath);
+
+      const fileName = path.basename(configSourceFile.getBaseName(), '.ts');
+      const routerParamsInterface = configSourceFile.getInterface('PageParams');
+
+      if (!routerParamsInterface) return;
+
+      const exportPageNameStatement = configSourceFile
+        .getExportSymbols()
+        .find((item) => item.getName() === 'pageName');
+
+      const pageName = (
+        exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
+        '"默认页面名"'
+      ).slice(1, -1);
+
+      routerTypeFile.addInterface({
+        name: item.pageType,
+        docs: [
+          {
+            tags: [
+              {
+                tagName: 'Page',
+                text: pageName,
+              },
+            ],
+          },
+        ],
+        properties: routerParamsInterface.getProperties().map((item) => {
+          return {
+            name: item.getName(),
+            type: item.getTypeNode()?.getText(),
+            docs: item.getJsDocs().map((doc) => {
+              return {
+                description: doc.getDescription(),
+                tags: doc.getTags().map((tag) => {
+                  return {
+                    tagName: tag.getTagName(),
+                    text: tag.getText(),
+                  };
+                }),
+              };
+            }),
+          };
+        }),
+      });
+
+      const allPageInterfaces = routerTypeFile
+        .getInterfaces()
+        .filter((v) => v.getJsDocs()[0]?.getTags()[0]?.getTagName() === 'Page');
+
+      routerTypeFile.addInterface({
+        name: 'RouterParamsMapping',
+        docs: [
+          {
+            description: '路由参数映射',
+          },
+        ],
+        properties: allPageInterfaces.map((v) => {
+          return {
+            name: v.getName(),
+            type: v.getName(),
+          };
+        }),
+      });
     }
 
     if (item.pageType) {
