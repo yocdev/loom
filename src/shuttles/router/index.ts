@@ -1,4 +1,4 @@
-import { getConfigByTsFile, searchFile } from '../../utils/cli-tools';
+import { searchFile } from '../../utils/cli-tools';
 import path from 'path';
 import { existsSync } from 'fs-extra';
 import { map } from 'modern-async';
@@ -13,13 +13,13 @@ export const RouterShuttle = async (routerConfig = defaultOption.router) => {
   const {
     include,
     exclude,
-    output = 'src/__generated__/r  outer-shuttle',
+    output = 'src/__generated__/router-shuttle',
     transformPageInfo = (v: PageInfo) => v,
     transformRouterJson = (v: any) => v,
   } = routerConfig || {};
 
   const filePaths = searchFile(include, exclude);
-
+  console.log(filePaths, 'filePaths');
   const result: RouterConfigResult[] = await map(
     filePaths,
     async (pathItem) => {
@@ -32,19 +32,14 @@ export const RouterShuttle = async (routerConfig = defaultOption.router) => {
 
       const isExistConfigFile = Boolean(configPath && existsSync(configPath));
 
-      const config: any = isExistConfigFile
-        ? await getConfigByTsFile(configPath)
-        : null;
-
       return {
         folderPath: dir,
         configPath: isExistConfigFile ? configPath : null,
-        config,
-        pageName: config ? config.pageName : '页面标题',
         pageType: Case.pascal(folderName),
       };
     },
   );
+
   genRouterType(output, result);
   RouterJsonGen({ output, transformPageInfo, transformRouterJson }, result);
   // const routerTypeTpl = genRouterType(result);

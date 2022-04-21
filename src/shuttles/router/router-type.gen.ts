@@ -1,17 +1,28 @@
-import { Project, StructureKind } from 'ts-morph';
+import { Project, SourceFile, StructureKind } from 'ts-morph';
 import { removeSync } from 'fs-extra';
 import { RouterConfigResult } from './types';
 import path from 'path';
+
+const getFileSourceExportPageNameText = (fileSource: SourceFile) => {
+  const exportPageNameStatement = fileSource
+    .getExportSymbols()
+    .find((item) => item.getName() === 'pageName');
+
+  return (
+    exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
+    '"默认页面名"'
+  ).slice(1, -1);
+};
 
 export const genRouterType = async (
   output: string,
   pageConfigList: RouterConfigResult[],
 ) => {
   const realOutputPath = path.resolve(output, 'router-type.ts');
-
+  console.log(realOutputPath, 'realOutputPath');
   const project = new Project({});
   project.addSourceFilesAtPaths([
-    process.cwd() + '/**/route.config.ts',
+    ...(pageConfigList.map((v) => v.configPath).filter(Boolean) as string[]),
     '!node_modules',
   ]);
   project.resolveSourceFileDependencies();
@@ -28,22 +39,14 @@ export const genRouterType = async (
   });
 
   pageConfigList.forEach((item) => {
+    let pageName = '默认页面名';
     if (item.configPath && item.pageType) {
       const configSourceFile = project.getSourceFileOrThrow(item.configPath);
-
-      const fileName = path.basename(configSourceFile.getBaseName(), '.ts');
       const routerParamsInterface = configSourceFile.getInterface('PageParams');
 
       if (!routerParamsInterface) return;
 
-      const exportPageNameStatement = configSourceFile
-        .getExportSymbols()
-        .find((item) => item.getName() === 'pageName');
-
-      const pageName = (
-        exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
-        '"默认页面名"'
-      ).slice(1, -1);
+      pageName = getFileSourceExportPageNameText(configSourceFile);
 
       routerTypeFile.addInterface({
         name: item.pageType,
@@ -95,14 +98,14 @@ export const genRouterType = async (
         }),
       });
     }
-
+    console.log(item, 'item.pageType');
     if (item.pageType) {
       pageTypeEnum.addMember({
         name: item.pageType,
         value: item.pageType,
         docs: [
           {
-            description: item.pageName,
+            description: pageName,
             kind: StructureKind.JSDoc,
           },
         ],
