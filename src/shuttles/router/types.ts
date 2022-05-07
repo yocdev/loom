@@ -28,7 +28,7 @@ export interface RouterConfigResult {
 }
 
 export interface PageInfo {
-  pageName: string;
+  pageName?: string;
   pageType: string;
   folderPath: string;
 }

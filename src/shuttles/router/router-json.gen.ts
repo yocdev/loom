@@ -21,9 +21,8 @@ export const RouterJsonGen = async (
   const folderPathMapping: any = {};
 
   pageConfigList.forEach((item) => {
-    const { pageName, pageType, folderPath } = item;
+    const { pageType, folderPath } = item;
     const oldValue = {
-      pageName,
       pageType,
       folderPath,
     };

@@ -4,9 +4,9 @@ import { RouterConfigResult } from './types';
 import path from 'path';
 
 const getFileSourceExportPageNameText = (fileSource: SourceFile) => {
-  const exportPageNameStatement = fileSource
-    .getExportSymbols()
-    .find((item) => item.getName() === 'pageName');
+  const exportPageNameStatement = fileSource.getExportSymbols().find((item) => {
+    return item.getName() === 'pageName';
+  });
 
   return (
     exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
@@ -78,27 +78,8 @@ export const genRouterType = async (
           };
         }),
       });
-
-      const allPageInterfaces = routerTypeFile
-        .getInterfaces()
-        .filter((v) => v.getJsDocs()[0]?.getTags()[0]?.getTagName() === 'Page');
-
-      routerTypeFile.addInterface({
-        name: 'RouterParamsMapping',
-        docs: [
-          {
-            description: '路由参数映射',
-          },
-        ],
-        properties: allPageInterfaces.map((v) => {
-          return {
-            name: v.getName(),
-            type: v.getName(),
-          };
-        }),
-      });
     }
-    console.log(item, 'item.pageType');
+
     if (item.pageType) {
       pageTypeEnum.addMember({
         name: item.pageType,
@@ -111,6 +92,26 @@ export const genRouterType = async (
         ],
       });
     }
+  });
+
+  const allPageInterfaces = routerTypeFile
+    .getInterfaces()
+    .filter((v) => v.getJsDocs()[0]?.getTags()[0]?.getTagName() === 'Page');
+
+  routerTypeFile.addInterface({
+    name: 'RouterParamsMapping',
+    isExported: true,
+    docs: [
+      {
+        description: '路由参数映射',
+      },
+    ],
+    properties: allPageInterfaces.map((v) => {
+      return {
+        name: `[PageType.${v.getName()}]`,
+        type: v.getName(),
+      };
+    }),
   });
 
   // asynchronously save all the changes above
