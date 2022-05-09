@@ -4,7 +4,7 @@ import { ConfigOptions } from '../types';
 import to from 'await-to-js';
 import fg from 'fast-glob';
 import { defaultOption, rootPath } from '../constant.cli';
-import { ModuleKind, ScriptTarget, ts } from 'ts-morph';
+import { ModuleKind, ScriptTarget, SourceFile, ts } from 'ts-morph';
 import { last } from 'lodash';
 
 export const searchFile = (
@@ -57,3 +57,14 @@ export function getParentDirName(pathStr: string) {
   const dirname = path.dirname(pathStr);
   return last(dirname.split('/'))!;
 }
+
+export const getFileSourceExportPageNameText = (fileSource: SourceFile) => {
+  const exportPageNameStatement = fileSource.getExportSymbols().find((item) => {
+    return item.getName() === 'pageName';
+  });
+
+  return (
+    exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
+    '"默认页面名"'
+  ).slice(1, -1);
+};

@@ -1,18 +1,8 @@
-import { Project, SourceFile, StructureKind } from 'ts-morph';
+import { Project, StructureKind } from 'ts-morph';
 import { removeSync } from 'fs-extra';
 import { RouterConfigResult } from './types';
 import path from 'path';
-
-const getFileSourceExportPageNameText = (fileSource: SourceFile) => {
-  const exportPageNameStatement = fileSource.getExportSymbols().find((item) => {
-    return item.getName() === 'pageName';
-  });
-
-  return (
-    exportPageNameStatement?.getValueDeclaration()?.getType().getText() ??
-    '"默认页面名"'
-  ).slice(1, -1);
-};
+import { getFileSourceExportPageNameText } from 'src/utils/cli-tools';
 
 export const genRouterType = async (
   output: string,
