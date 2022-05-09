@@ -40,6 +40,13 @@ export const genRouterType = async (
 
   pageConfigList.forEach((item) => {
     let pageName = '默认页面名';
+    let configSourceFile;
+
+    if (item.configPath) {
+      configSourceFile = project.getSourceFileOrThrow(item.configPath);
+      pageName = getFileSourceExportPageNameText(configSourceFile);
+    }
+
     // 生成 PageType 枚举
     if (item.pageType) {
       pageTypeEnum.addMember({
@@ -55,13 +62,10 @@ export const genRouterType = async (
     }
 
     // 读取各个页面的配置文件，生成页面入参类型
-    if (item.configPath && item.pageType) {
-      const configSourceFile = project.getSourceFileOrThrow(item.configPath);
+    if (configSourceFile && item.pageType) {
       const routerParamsInterface = configSourceFile.getInterface('PageParams');
 
       if (!routerParamsInterface) return;
-
-      pageName = getFileSourceExportPageNameText(configSourceFile);
 
       routerTypeFile.addInterface({
         name: item.pageType,
