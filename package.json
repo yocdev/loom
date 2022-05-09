@@ -1,6 +1,6 @@
 {
   "name": "@yocdev/loom",
-  "version": "1.0.17-beta.0",
+  "version": "1.0.17-beta.1",
   "description": "",
   "bin": {
     "loom": "dist/index.cjs.js"
