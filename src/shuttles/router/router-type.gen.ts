@@ -83,6 +83,7 @@ export const genRouterType = async (
           return {
             name: item.getName(),
             type: item.getTypeNode()?.getText(),
+            hasQuestionToken: item.hasQuestionToken(),
             docs: item.getJsDocs().map((doc) => {
               return {
                 description: doc.getDescription(),
