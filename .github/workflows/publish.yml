@@ -6,7 +6,6 @@ name: Node.js Package
 on:
   create:
 
-
 jobs:
   version:
     runs-on: ubuntu-latest
@@ -22,7 +21,7 @@ jobs:
         with:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
-      - uses: borales/actions-yarn@v2.3.0
+      - uses: borales/actions-yarn@v4
         with:
           cmd: install
       - run: yarn build
