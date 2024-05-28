@@ -2,7 +2,10 @@ import { RouterConfigResult, RouterShuttleConfig } from './types';
 import { outputFileSync } from 'fs-extra';
 import path from 'path';
 import { Project } from 'ts-morph';
-import { getFileSourceExportPageNameText } from 'src/utils/cli-tools';
+import {
+  getFileSourceExportPageId,
+  getFileSourceExportPageNameText,
+} from 'src/utils/cli-tools';
 
 export const RouterJsonGen = async (
   {
@@ -30,16 +33,19 @@ export const RouterJsonGen = async (
 
   pageConfigList.forEach((item) => {
     let pageName = '默认页面名';
+    let pageId;
 
     if (item.configPath) {
       const configSourceFile = project.getSourceFileOrThrow(item.configPath);
       pageName = getFileSourceExportPageNameText(configSourceFile);
+      pageId = getFileSourceExportPageId(configSourceFile);
     }
     const { pageType, folderPath } = item;
     const oldValue = {
       pageType,
       folderPath,
       pageName,
+      pageId: pageId || pageType,
     };
     const value = transformPageInfo?.(oldValue) ?? oldValue;
 
