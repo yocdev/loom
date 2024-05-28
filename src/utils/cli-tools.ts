@@ -68,3 +68,15 @@ export const getFileSourceExportPageNameText = (fileSource: SourceFile) => {
     '"默认页面名"'
   ).slice(1, -1);
 };
+
+export const getFileSourceExportPageId = (fileSource: SourceFile) => {
+  const exportPageNameStatement = fileSource.getExportSymbols().find((item) => {
+    return item.getName() === 'pageId';
+  });
+
+  const _pageId = exportPageNameStatement
+    ?.getValueDeclaration()
+    ?.getType()
+    .getText();
+  return _pageId ? _pageId.slice(1, -1) : '';
+};
